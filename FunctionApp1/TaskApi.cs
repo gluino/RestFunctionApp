@@ -9,6 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace RestFuncApp
 {
@@ -16,14 +17,13 @@ namespace RestFuncApp
     {   
         public static readonly List<Task> Items = new List<Task>();
 
-
         [FunctionName("CreateTask")]
         public static async Task<IActionResult> CreateTask(
             [HttpTrigger(AuthorizationLevel.Anonymous,
                 "post", Route = "task")]
-            HttpRequest req, TraceWriter log)
+            HttpRequest req, ILogger log)
         {
-            log.Info("Creating a new Task list item");
+            log.Log(LogLevel.Information,"Creating a new Task list item");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var input = JsonConvert.DeserializeObject<TaskCreateModel>(requestBody);
 
@@ -31,11 +31,6 @@ namespace RestFuncApp
             Items.Add(task);
             return new OkObjectResult(task);
         }
-
-
-
-
-
 
         [FunctionName("GetAllTasks")]
         public static IActionResult GetAllTasks(
