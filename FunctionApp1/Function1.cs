@@ -18,6 +18,7 @@ namespace FunctionApp1
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request. 32768");
+            log.LogInformation("asdhasdhas");
 
             string name = req.Query["name"];
 
@@ -27,7 +28,7 @@ namespace FunctionApp1
 
             string responseMessage = string.IsNullOrEmpty(name)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully. 33412";
+                : $"Hello, {name}. This HTTP triggered function executed successfully. 33412bas";
 
             return new OkObjectResult(responseMessage);
         }
